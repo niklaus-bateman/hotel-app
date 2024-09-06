@@ -23,3 +23,33 @@ const TableHeader = styled.header`
   color: var(--color-grey-600);
   padding: 1.6rem 2.4rem;
 `;
+
+import React from 'react'
+import { useQuery } from "@tanstack/react-query";
+import { getCabins } from "../../services/apiCabins";
+import Spinner from "../../ui/Spinner";
+import CabinRow from "./CabinRow";
+
+const CabinTable = () => {
+    const { data: cabins, isLoading } = useQuery({
+			queryKey: ["cabin"],
+			queryFn: getCabins,
+		});
+		if (isLoading) return <Spinner />;
+  return (
+		<Table role="table">
+			<TableHeader role="thead">
+				<div></div>
+				<div>Cabin</div>
+				<div>Capacity</div>
+				<div>Price</div>
+				<div>Discount</div>
+				<div></div>
+      </TableHeader>
+      {cabins.map(cabin => <CabinRow key={cabin.id} cabin={cabin}/>)}
+      
+		</Table>
+  );
+}
+
+export default CabinTable
