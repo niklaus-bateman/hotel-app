@@ -7,6 +7,7 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { toastConfigObj } from "../../utils/constants";
 import CreateCabinForm from "./CreateCabinForm";
+import { useDeleteCabin } from "./useDeleteCabin";
 
 const TableRow = styled.div`
 	display: grid;
@@ -59,19 +60,7 @@ const CabinRow = ({ cabin }) => {
 		description,
 	} = cabin;
 
-	const client = useQueryClient();
-
-	const { mutate, isLoading } = useMutation({
-		mutationFn: (cabinId) => deleteCabin(cabinId),
-		onSuccess: () => {
-			toast.success("Cabin deleted!", toastConfigObj);
-			client.invalidateQueries({
-				queryKey: ["cabin"],
-			});
-		},
-		onError: (err) => toast.error("Failed to delete cabin", toastConfigObj),
-	});
-
+	const { deleteCabin, isDeleting } = useDeleteCabin();
 	return (
 		<>
 			<TableRow>
@@ -86,7 +75,7 @@ const CabinRow = ({ cabin }) => {
 					<button onClick={() => setShowEditForm(!showEditForm)}>
 						Edit
 					</button>
-					<button onClick={() => mutate(cabinId)} disabled={isLoading}>
+					<button onClick={() => deleteCabin(cabinId)} disabled={isDeleting}>
 						Delete
 					</button>
 				</div>
