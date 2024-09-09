@@ -1,7 +1,7 @@
 export const toastConfigObj = {
 	position: "top-center",
-	autoClose: 5000,
-	hideProgressBar: false,
+	autoClose: 2000,
+	hideProgressBar: true,
 	closeOnClick: true,
 	pauseOnHover: true,
 	draggable: true,
