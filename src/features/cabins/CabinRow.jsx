@@ -1,11 +1,12 @@
 import styled from "styled-components";
 import { formatCurrency } from "../../utils/helpers";
-import React from "react";
+import React, { useState } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { deleteCabin } from "../../services/apiCabins";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { toastConfigObj } from "../../utils/constants";
+import CreateCabinForm from "./CreateCabinForm";
 
 const TableRow = styled.div`
 	display: grid;
@@ -47,6 +48,7 @@ const Discount = styled.div`
 `;
 
 const CabinRow = ({ cabin }) => {
+	const [showEditForm, setShowEditForm] = useState(false);
 	const {
 		id: cabinId,
 		name,
@@ -71,16 +73,26 @@ const CabinRow = ({ cabin }) => {
 	});
 
 	return (
-		<TableRow>
-			<Img src={image} />
-			<Cabin>{name}</Cabin>
-			<div>{maxCapacity} Persons</div>
-			<Price>{formatCurrency(regularPrice)}</Price>
-			<Discount>{`${discount ? `${discount}%` : "No discount"}`}</Discount>
-			<button onClick={() => mutate(cabinId)} disabled={isLoading}>
-				Delete
-			</button>
-		</TableRow>
+		<>
+			<TableRow>
+				<Img src={image} />
+				<Cabin>{name}</Cabin>
+				<div>{maxCapacity} Persons</div>
+				<Price>{formatCurrency(regularPrice)}</Price>
+				<Discount>{`${
+					discount ? `${discount}%` : "No discount"
+				}`}</Discount>
+				<div>
+					<button onClick={() => setShowEditForm(!showEditForm)}>
+						Edit
+					</button>
+					<button onClick={() => mutate(cabinId)} disabled={isLoading}>
+						Delete
+					</button>
+				</div>
+			</TableRow>
+			{showEditForm && <CreateCabinForm cabinToEdit={cabin} />}
+		</>
 	);
 };
 
