@@ -38,7 +38,7 @@ const CabinTable = () => {
 		if (isLoading) return <Spinner />;
   return (
 		<Table role="table">
-			<TableHeader role="thead">
+			<TableHeader role="row">
 				<div></div>
 				<div>Cabin</div>
 				<div>Capacity</div>
