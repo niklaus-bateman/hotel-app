@@ -1,13 +1,10 @@
-import styled from "styled-components";
-import { formatCurrency } from "../../utils/helpers";
 import React, { useState } from "react";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { deleteCabin } from "../../services/apiCabins";
-import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-import { toastConfigObj } from "../../utils/constants";
+import styled from "styled-components";
+import { HiPencil, HiSquare2Stack, HiTrash } from "react-icons/hi2";
+import { formatCurrency } from "../../utils/helpers";
 import CreateCabinForm from "./CreateCabinForm";
 import { useDeleteCabin } from "./useDeleteCabin";
+import { useCreateCabin } from "./useCreateCabin";
 
 const TableRow = styled.div`
 	display: grid;
@@ -49,6 +46,8 @@ const Discount = styled.div`
 `;
 
 const CabinRow = ({ cabin }) => {
+	const { deleteCabin, isDeleting } = useDeleteCabin();
+	const { createCabin, isCreating } = useCreateCabin();
 	const [showEditForm, setShowEditForm] = useState(false);
 	const {
 		id: cabinId,
@@ -60,7 +59,18 @@ const CabinRow = ({ cabin }) => {
 		description,
 	} = cabin;
 
-	const { deleteCabin, isDeleting } = useDeleteCabin();
+	const handleCopy = () => {
+		// we cant spread cabin of linr 64 , then there will be two objects with same id, hence causing a conflict.
+		createCabin({
+			name: `Copy of ${name}`,
+			maxCapacity,
+			regularPrice,
+			discount,
+			image,
+			description,
+		});
+	};
+
 	return (
 		<>
 			<TableRow>
@@ -72,11 +82,17 @@ const CabinRow = ({ cabin }) => {
 					discount ? `${discount}%` : "No discount"
 				}`}</Discount>
 				<div>
-					<button onClick={() => setShowEditForm(!showEditForm)}>
-						Edit
+					<button onClick={handleCopy} disabled={isCreating}>
+						<HiPencil />
 					</button>
-					<button onClick={() => deleteCabin(cabinId)} disabled={isDeleting}>
-						Delete
+					<button onClick={() => setShowEditForm(!showEditForm)}>
+						<HiSquare2Stack />
+					</button>
+					<button
+						onClick={() => deleteCabin(cabinId)}
+						disabled={isDeleting}
+					>
+						<HiTrash />
 					</button>
 				</div>
 			</TableRow>

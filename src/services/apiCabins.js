@@ -19,7 +19,6 @@ export async function deleteCabin(id) {
 	}
 }
 
-// awpidqelsyoytjqvtjvp.supabase.co/storage/v1/object/public/cabin-images/cabin-001.jpg?t=2024-09-07T18%3A27%3A04.958Z
 export async function createEditCabin(cabinData, id) {
 	const hasImage = typeof cabinData.image === 'string' && cabinData?.image?.startsWith(supabaseUrl);
 	const imageName = `${Math.random()}-${cabinData?.image?.name}`.replaceAll(
@@ -41,6 +40,9 @@ export async function createEditCabin(cabinData, id) {
 	}
 	const { data, error } = await query.select().single();
 
+	if (data) {
+		return data;
+	}
 	if (error) {
 		throw new Error("Cabin could not be created");
 	}
