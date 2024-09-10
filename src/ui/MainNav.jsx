@@ -7,7 +7,7 @@ import {
 	HiOutlineUser,
 	HiOutlineHomeModern,
 } from "react-icons/hi2";
-
+import { IoSettingsOutline } from "react-icons/io5";
 
 const NavList = styled.ul`
 	display: flex;
@@ -80,6 +80,12 @@ const MainNav = () => {
 					<StyledNavLink to="/users">
 						<HiOutlineUser />
 						<span>Users</span>
+					</StyledNavLink>
+				</li>
+				<li>
+					<StyledNavLink to="/settings">
+						<IoSettingsOutline />
+						<span>Settings</span>
 					</StyledNavLink>
 				</li>
 			</NavList>
