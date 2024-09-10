@@ -3,7 +3,7 @@ import { createEditCabin } from "../../services/apiCabins";
 import { toastConfigObj } from "../../utils/constants";
 import { toast } from "react-toastify";
 
-export function useCreateCabin(reset) {
+export function useCreateCabin() {
  const client = useQueryClient();
  	const { mutate:createCabin, isLoading:isCreating } = useMutation({
 		mutationFn: (cabin) => createEditCabin(cabin),
@@ -12,7 +12,7 @@ export function useCreateCabin(reset) {
 			client.invalidateQueries({
 				queryKey: ["cabin"],
 			});
-			reset();
+			// reset();
 		},
 		onError: (errorMessage) => {
 			console.log(errorMessage.message);

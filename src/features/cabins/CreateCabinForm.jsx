@@ -21,8 +21,8 @@ function CreateCabinForm({ cabinToEdit = {} }) {
 		defaultValues: isEditSession ? editValues : {},
 	});
 
-	const { createCabin, isCreating } = useCreateCabin(reset);
-	const { editCabin, isEditing } = useEditCabin(reset);
+	const { createCabin, isCreating } = useCreateCabin();
+	const { editCabin, isEditing } = useEditCabin();
 
 	const isWorking = isEditing || isCreating;
 	const onSubmit = (data) => {
